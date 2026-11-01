@@ -607,7 +607,10 @@ module Engine
           end.join(' | ')
         end
 
-        # Mathematical bold letters, to fake bold in the plain-text Info page and log.
+        # Mathematical bold letters and digits, used to fake bold in the Info page and
+        # the game log. Both render plain text (no HTML or markdown), and the log's only
+        # native bold is a whole line starting with '--', so bolding part of a line (for
+        # example the current Political Track position) cannot be done any other way.
         BOLD_CHARS = {
           'A' => '𝐀',
           'B' => '𝐁',
@@ -861,7 +864,7 @@ module Engine
         # Rules summary 6.3: the coup is written to the log as one block.
         def log_coup_report!
           @log << COUP_LOG_RULE
-          @log << "#{'-' * 19}  #{bold_text('COUP ATTEMPT')}  #{'-' * 19}"
+          @log << "#{'-' * 19}  COUP ATTEMPT  #{'-' * 19}"
           @log << COUP_LOG_RULE
           @log << "Coup Attempt Result: #{@coup_outcome.to_s.upcase}"
           { benefited: 'BENEFITED:', punishment: 'PUNISHMENT:', direct: 'DIRECT EFFECTS:', other: 'OTHER EFFECTS:' }
